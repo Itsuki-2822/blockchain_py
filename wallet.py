@@ -49,6 +49,6 @@ class Wallet(object):
 
 if __name__ == '__main__':
     wallet = Wallet()
-    print("PRIVATE_key :",wallet.private_key)
-    print("PUBLIC_key :",wallet.public_key)
-    print("ADDRESS :",wallet.blockchain_address)
+    print("private_key :",wallet.private_key)
+    print("public_key :",wallet.public_key)
+    print("address :",wallet.blockchain_address)
