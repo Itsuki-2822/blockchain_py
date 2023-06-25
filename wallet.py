@@ -1,3 +1,6 @@
+### TODO ###
+# 認証の機能追加
+
 import base58
 import codecs
 import hashlib
