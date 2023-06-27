@@ -1,5 +1,6 @@
 ### TODO ###
-# 認証の機能追加
+# 認証の機能追加 6/27
+# 認証の機能の詳しい理解と応用
 
 import base58
 import codecs
@@ -50,8 +51,33 @@ class Wallet(object):
         blockchain_address = base58.b58encode(bytes.fromhex(address_hex)).decode('utf-8')
         return blockchain_address
 
+class Transaction(object):
+    def __init__(self,sender_private_key,sender_public_key,
+                 sender_blockchain_address,recipient_blockchain_address,value):
+        self.sender_private_key = sender_private_key
+        self.sender_public_key = sender_public_key
+        self.sender_blockchain_address = sender_blockchain_address
+        self.recipient_blockchain_address = recipient_blockchain_address
+        self.value = value
+
+    def generate_signature(self):
+        transacrion = {
+            'sender_blockchain_address':self.sender_blockchain_address,
+            'recipient_blockchain_address':self.recipient_blockchain_address,
+            'value':float(self.value)
+        }
+        message = hashlib.sha256().digest()
+        private_key = SigningKey.from_string(bytes().fromhex(self.sender_private_key),curve = NIST256p)
+        private_key_sign = private_key.sign(message)
+        signature = private_key_sign.hex()
+        return signature
+
+
 if __name__ == '__main__':
     wallet = Wallet()
     print("private_key :",wallet.private_key)
     print("public_key :",wallet.public_key)
     print("address :",wallet.blockchain_address)
+    
+    transaction = Transaction(wallet.private_key,wallet.public_key,wallet.blockchain_address,"B",1.0)
+    print("signature :",transaction.generate_signature())
